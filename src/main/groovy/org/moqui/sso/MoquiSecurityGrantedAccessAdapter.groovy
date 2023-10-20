@@ -68,25 +68,30 @@ class MoquiSecurityGrantedAccessAdapter implements SecurityGrantedAccessAdapter 
 
                     // sync user account
                     String userId
+                    String partyId
                     EntityValue userAccount = ec.entity.find("moqui.security.UserAccount")
                             .condition("username", profile.username)
                             .useCache(false)
                             .one()
                     if (userAccount) {
                         userId = userAccount.userId
-                        ec.service.sync().name("org.moqui.impl.UserServices.update#UserAccount")
+                        partyId = userAccount.partyId
+                        ec.service.sync().name("mantle.party.PartyServices.update#Account")
                                 .parameter("userId", userId)
                                 .parameter("externalUserId", profile.id)
                                 .parameter("username", profile.username)
                                 .parameters(attributeMap)
                                 .call()
                     } else {
-                        Map createAccountOut = ec.service.sync().name("create#moqui.security.UserAccount")
+                        Map createAccountOut = ec.service.sync().name("mantle.party.PartyServices.create#Account")
+                                .parameter("dataSourceId", authFlow.partyDataSourceId ?: "ExternalIdP")
                                 .parameter("externalUserId", profile.id)
                                 .parameter("username", profile.username)
+                                .parameter("loginAfterCreate", false)
                                 .parameters(attributeMap)
                                 .call()
                         userId = createAccountOut.userId
+                        partyId = createAccountOut.partyId
                     }
 
                     // find user groups
@@ -96,7 +101,13 @@ class MoquiSecurityGrantedAccessAdapter implements SecurityGrantedAccessAdapter 
                             .list()
                     Set obsoleteUserGroupIdSet = new HashSet<>(userGroupMemberList*.userGroupId)
 
-                    // sync user groups
+                    // find party roles
+                    EntityList roleTypeList = ec.entity.find("mantle.party.PartyRole")
+                            .condition("partyId", partyId)
+                            .list()
+                    Set obsoleteRoleTypeIdSet = new HashSet<>(roleTypeList*.roleTypeId)
+
+                    // sync user groups and role types
                     HashSet<String> roleSet = new HashSet<>()
                     if (profile.roles) {
                         roleSet.addAll(profile.roles)
@@ -120,6 +131,12 @@ class MoquiSecurityGrantedAccessAdapter implements SecurityGrantedAccessAdapter 
                                     .parameter("fromDate", nowTimestamp)
                                     .call()
                         }
+                        if (roleMap?.roleTypeId && !obsoleteRoleTypeIdSet.remove(roleMap.roleTypeId)) {
+                            ec.service.sync().name("mantle.party.PartyServices.ensure#PartyRole")
+                                    .parameter("partyId", partyId)
+                                    .parameter("roleTypeId", roleMap.roleTypeId)
+                                    .call()
+                        }
                     }
                     for (EntityValue userGroupMember : userGroupMemberList) {
                         String userGroupId = userGroupMember.userGroupId
@@ -132,6 +149,12 @@ class MoquiSecurityGrantedAccessAdapter implements SecurityGrantedAccessAdapter 
                                     .call()
                         }
                     }
+                    for (String roleTypeId : obsoleteRoleTypeIdSet) {
+                        ec.service.sync().name("delete#mantle.party.PartyRole")
+                                .parameter("partyId", partyId)
+                                .parameter("roleTypeId", roleTypeId)
+                                .call()
+                    }
 
                     // add default user group if needed
                     long userGroupCount = ec.entity.find("moqui.security.UserGroupMember")
@@ -143,6 +166,17 @@ class MoquiSecurityGrantedAccessAdapter implements SecurityGrantedAccessAdapter 
                                 .parameter("userGroupId", authFlow.defaultUserGroupId)
                                 .parameter("userId", userId)
                                 .parameter("fromDate", nowTimestamp)
+                                .call()
+                    }
+
+                    // add default role if needed
+                    long partyRoleCount = ec.entity.find("mantle.party.PartyRole")
+                            .condition("partyId", partyId)
+                            .count()
+                    if (partyRoleCount == 0) {
+                        ec.service.sync().name("mantle.party.PartyServices.ensure#PartyRole")
+                                .parameter("partyId", partyId)
+                                .parameter("roleTypeId", "_NA_")
                                 .call()
                     }
                 }
