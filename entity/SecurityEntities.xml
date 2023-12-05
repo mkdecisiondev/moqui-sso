@@ -111,7 +111,7 @@ along with this software (see the LICENSE.md file). If not, see
             <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OactGoogle" description="Google" optionValue="fa-brands fa-google fa-2x"/>
             <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OactLinkedIn" description="LinkedIn" optionValue="fa-brands fa-linkedin fa-2x"/>
             <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OactPaypal" description="Paypal" optionValue="fa-brands fa-paypal fa-2x"/>
-            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OactTwitter" description="Twitter" optionValue="fa-brands fa-x-twitter fa-2x"/>
+            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OactTwitter" description="X (Twitter)" optionValue="fa-brands fa-x-twitter fa-2x"/>
             <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OactWordPress" description="WordPress" optionValue="fa-brands fa-wordpress fa-2x"/>
             <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OactYahoo" description="Yahoo" optionValue="fa-brands fa-yahoo fa-2x"/>
             <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OactOauth10" description="OAuth v1.0" optionValue="far fa-globe fa-2x"/>
