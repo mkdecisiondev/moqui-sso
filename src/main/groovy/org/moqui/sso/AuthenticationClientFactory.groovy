@@ -126,7 +126,7 @@ final class AuthenticationClientFactory {
             client.setSecret(authFlow.secret as String)
             client.setName(authFlowId)
             return client
-        } else if ("OactDropBox" == authFlow.clientTypeEnumId) {
+        } else if ("OactDropbox" == authFlow.clientTypeEnumId) {
             DropBoxClient client = new DropBoxClient()
             client.setKey(authFlow.clientId as String)
             client.setSecret(authFlow.secret as String)
