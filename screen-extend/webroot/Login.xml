@@ -34,6 +34,28 @@ along with this software (see the LICENSE.md file). If not, see
         <default-response url="/"/>
         <error-response url="."/>
     </transition>
+    <transition name="authFlows" require-session-token="false">
+        <actions>
+            <script>
+                ec.artifactExecution.disableAuthz()
+            </script>
+            <entity-find entity-name="moqui.security.sso.AuthFlow" list="authFlowList">
+                <econdition field-name="disabled" operator="not-equals" value="Y"/>
+                <select-field field-name="authFlowId"/>
+                <select-field field-name="authFlowTypeEnumId"/>
+                <select-field field-name="description"/>
+                <select-field field-name="iconName"/>
+                <select-field field-name="disabled"/>
+                <select-field field-name="sequenceNum"/>
+                <order-by field-name="sequenceNum,description"/>
+            </entity-find>
+            <script>
+                ec.web.sendJsonResponse([authFlowList: authFlowList])
+                ec.artifactExecution.enableAuthz()
+            </script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
 
     <actions-extend>
         <script>ec.artifactExecution.disableAuthz()</script>
