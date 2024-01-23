@@ -39,16 +39,37 @@ along with this software (see the LICENSE.md file). If not, see
             <script>
                 ec.artifactExecution.disableAuthz()
             </script>
-            <entity-find entity-name="moqui.security.sso.AuthFlow" list="authFlowList">
+            <entity-find entity-name="moqui.security.sso.AuthFlow" list="activeAuthFlowList">
                 <econdition field-name="disabled" operator="not-equals" value="Y"/>
-                <select-field field-name="authFlowId"/>
-                <select-field field-name="authFlowTypeEnumId"/>
-                <select-field field-name="description"/>
-                <select-field field-name="iconName"/>
-                <select-field field-name="disabled"/>
-                <select-field field-name="sequenceNum"/>
                 <order-by field-name="sequenceNum,description"/>
             </entity-find>
+            <set field="authFlowList" from="[]"/>
+            <set field="clientIp" from="ec.userFacade.getClientIp()"/>
+            <iterate list="activeAuthFlowList" entry="authFlow">
+                <set field="authFlowMap" from="[:]"/>
+                <script><![CDATA[
+                    boolean authFlowAuthorized = true
+                    if (authFlow.ipAllowed && !clientIp.contains(":")) {
+                        authFlowAuthorized = false
+                        String[] ipAddrs = (authFlow.ipAllowed as String).split(",")
+                        for (String ipAddr : ipAddrs) {
+                            if (org.moqui.util.WebUtilities.ip4Matches(ipAddr, clientIp)) {
+                                authFlowAuthorized = true
+                                break
+                            }
+                        }
+                    }
+
+                    if (authFlowAuthorized) {
+                        authFlowMap.put("authFlowId", authFlow.authFlowId)
+                        authFlowMap.put("authFlowTypeEnumId", authFlow.authFlowTypeEnumId)
+                        authFlowMap.put("description", authFlow.description)
+                        authFlowMap.put("iconName", authFlow.iconName)
+                        authFlowMap.put("sequenceNum", authFlow.sequenceNum)
+                        authFlowList.add(authFlowMap)
+                    }
+                ]]></script>
+            </iterate>
             <script>
                 ec.web.sendJsonResponse([authFlowList: authFlowList])
                 ec.artifactExecution.enableAuthz()
