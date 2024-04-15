@@ -85,7 +85,6 @@ along with this software (see the LICENSE.md file). If not, see
                                          lastAccessedTime: ec.web.session.getLastAccessedTime(),
                                          maxInactiveInterval: ec.web.session.getMaxInactiveInterval(),
                                          moquiSessionToken: ec.web.sessionToken,
-
                 ])
             </script>
         </actions>
