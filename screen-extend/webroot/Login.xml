@@ -40,7 +40,7 @@ along with this software (see the LICENSE.md file). If not, see
                 ec.artifactExecution.disableAuthz()
             </script>
             <entity-find entity-name="moqui.security.sso.AuthFlow" list="activeAuthFlowList">
-                <econdition field-name="disabled" operator="not-equals" value="Y"/>
+                <econdition field-name="disabled" operator="not-equals" value="Y" or-null="true"/>
                 <order-by field-name="sequenceNum,description"/>
             </entity-find>
             <set field="authFlowList" from="[]"/>
@@ -73,6 +73,20 @@ along with this software (see the LICENSE.md file). If not, see
             <script>
                 ec.web.sendJsonResponse([authFlowList: authFlowList])
                 ec.artifactExecution.enableAuthz()
+            </script>
+        </actions>
+        <default-response type="none"/>
+    </transition>
+    <transition name="sessionInfo" require-session-token="false">
+        <actions>
+            <script>
+                ec.web.sendJsonResponse([userId: ec.user.userId,
+                                         creationTime: ec.web.session.getCreationTime(),
+                                         lastAccessedTime: ec.web.session.getLastAccessedTime(),
+                                         maxInactiveInterval: ec.web.session.getMaxInactiveInterval(),
+                                         moquiSessionToken: ec.web.sessionToken,
+
+                ])
             </script>
         </actions>
         <default-response type="none"/>
