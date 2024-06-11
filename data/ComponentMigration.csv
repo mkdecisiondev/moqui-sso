@@ -1,0 +1,4 @@
+# TODO This file is temporary and should be removed after the Moqui-SSO release is completed for all FIs and Pac4j component is removed for all users
+ComponentMigration.migrate#OidcValues, seed
+one
+1
