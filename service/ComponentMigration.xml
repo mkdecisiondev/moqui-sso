@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://moqui.org/xsd/service-definition-3.xsd">
+    <!-- TODO This file is temporary and should be removed after the Moqui-SSO release is completed for all FIs and Pac4j component is removed for all users -->
+    <service verb="migrate" noun="OidcValues">
+        <description>
+            The intention of this service to be run during the load service for new releases to move the values for Oidc tables related to Pac4j to Moqui-SSO tables corresponded to it
+        </description>
+        <in-parameters>
+            <parameter name="one"/>
+        </in-parameters>
+        <actions>
+            <log level="error" message="ComponentMigration.migrate#OidcValues ==> We made it and this ran through the load process"/>
+            <entity-find-count entity-name="moqui.security.sso.AuthFlow" count-field="authFlowCount"/>
+
+            <if condition="authFlowCount != 0">
+                <log level="error" message="Migration has been done, Records found in moqui.security.sso.AuthFlow, Aborting Migration"/>
+                <return/>
+            </if>
+            <entity-find entity-name="mk.authentication.OidcAuthenticationClient" list="oidcPac4j"/>
+            <if condition="oidcPac4j.size() == 0 || oidcPac4j.size() > 1">
+                <log level="error" message="Found ${oidcPac4j.size()} record in OidcAuthenticationClient aborting migration"/>
+            </if>
+
+            <service-call name="store#moqui.security.sso.AuthFlow">
+                <field-map field-name="authFlowId" value="Keycloak"/>
+                <field-map field-name="defaultUserGroupId" value="ALL_USERS"/>
+                <field-map field-name="sequenceNum" value="1"/>
+                <field-map field-name="iconName" value="security"/>
+                <field-map field-name="authFlowTypeEnumId" value="AftOidc"/>
+                <field-map field-name="description" value="Keycloak"/>
+            </service-call>
+            <log level="error" message="ComponentMigration.migrate#OidcValues ==> We created Auth Flow"/>
+            <service-call name="store#moqui.security.sso.AuthFlowFieldMap">
+                <field-map field-name="authFlowId" value="Keycloak"/>
+                <field-map field-name="ruleSeqId" value="01"/>
+                <field-map field-name="dstFieldName" value="userFullName"/>
+                <field-map field-name="srcFieldName" value="name"/>
+            </service-call>
+            <service-call name="store#moqui.security.sso.AuthFlowFieldMap">
+                <field-map field-name="authFlowId" value="Keycloak"/>
+                <field-map field-name="ruleSeqId" value="02"/>
+                <field-map field-name="dstFieldName" value="firstName"/>
+                <field-map field-name="srcFieldName" value="given_name"/>
+            </service-call>
+            <service-call name="store#moqui.security.sso.AuthFlowFieldMap">
+                <field-map field-name="authFlowId" value="Keycloak"/>
+                <field-map field-name="ruleSeqId" value="03"/>
+                <field-map field-name="dstFieldName" value="lastName"/>
+                <field-map field-name="srcFieldName" value="family_name"/>
+            </service-call>
+            <service-call name="store#moqui.security.sso.AuthFlowFieldMap">
+                <field-map field-name="authFlowId" value="Keycloak"/>
+                <field-map field-name="ruleSeqId" value="04"/>
+                <field-map field-name="dstFieldName" value="emailAddress"/>
+                <field-map field-name="srcFieldName" value="email"/>
+            </service-call>
+
+            <entity-find entity-name="moqui.security.UserGroup" list="userGroups"/>
+            <iterate list="userGroups" entry="userGroup">
+                <service-call name="store#moqui.security.sso.AuthFlowRoleMap">
+                    <field-map field-name="authFlowId" value="Keycloak"/>
+                    <field-map field-name="userGroupId" from="userGroup.userGroupId"/>
+                    <field-map field-name="roleName" from="userGroup.description"/>
+                </service-call>
+            </iterate>
+
+            <set field="oidcPac4j" from="oidcPac4j.getFirst()"/>
+            <set field="realmUrl" from="oidcPac4j.discoveryUri"/>
+            <script>
+                URL url = new URL(realmUrl)
+                String baseUrl = url.getProtocol() + "://" + url.getHost()
+                int start = realmUrl.indexOf("realms") + 7 as int
+                int end = realmUrl.indexOf(".well") - 1 as int
+                String realm = realmUrl.substring(start,end)
+            </script>
+            <service-call name="store#moqui.security.sso.OidcFlow">
+                <field-map field-name="authFlowId" value="Keycloak"/>
+                <field-map field-name="clientTypeEnumId" value="OctKeycloak"/>
+                <field-map field-name="clientId" from="oidcPac4j.clientId"/>
+                <field-map field-name="secret" from="oidcPac4j.secret"/>
+                <field-map field-name="preferredJwsAlgorithmEnumId" value="OjaRS512"/>
+                <field-map field-name="realm" from="realm"/>
+                <field-map field-name="baseUri" from="baseUrl"/>
+            </service-call>
+        </actions>
+    </service>
+
+</services>
