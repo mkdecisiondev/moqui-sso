@@ -124,6 +124,9 @@ class MoquiSecurityGrantedAccessAdapter implements SecurityGrantedAccessAdapter 
                                 .condition("authFlowId", profile.clientName)
                                 .condition("roleName", role)
                                 .one()
+                        if (!roleMap) {
+                            ec.logger.warn("No map found for role " + role)
+                        }
                         if (roleMap?.userGroupId && !obsoleteUserGroupIdSet.remove(roleMap.userGroupId)) {
                             ec.service.sync().name("create#moqui.security.UserGroupMember")
                                     .parameter("userGroupId", roleMap.userGroupId)
