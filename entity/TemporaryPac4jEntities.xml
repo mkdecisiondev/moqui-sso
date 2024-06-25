@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-2.1.xsd">
+    <entity entity-name="AuthenticationClient" package="mk.authentication" short-alias="clients">
+        <field name="clientId" type="id" is-pk="true"/>
+        <field name="name" type="text-short" />
+        <field name="enabled" type="text-indicator" default="N" />
+    </entity>
+
+    <entity entity-name="OidcAuthenticationClient" package="mk.authentication">
+        <field name="clientId" type="id" is-pk="true" />
+        <field name="id" type="text-short" />
+        <field name="secret" type="text-short" />
+        <field name="discoveryUri" type="text-medium" />
+        <field name="preferredJwsAlgorithm" type="text-short" />
+        <field name="useNonce" type="text-indicator" />
+
+        <relationship type="one" related="mk.authentication.AuthenticationClient" />
+    </entity>
+
+    <entity entity-name="OidcUserLoginSession" package="mk.authentication">
+        <field name="userId" type="id" is-pk="true"/>
+        <field name="sessionId" type="text-medium" is-pk="true"/>
+
+        <relationship type="one" related="moqui.security.UserAccount" short-alias="userAccount" title="UserAccount"/>
+
+        <index name="OidcUserLoginSessionIdx1">
+            <index-field name="userId"/>
+            <index-field name="sessionId"/>
+        </index>
+    </entity>
+</entities>
