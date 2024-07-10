@@ -25,6 +25,7 @@ along with this software (see the LICENSE.md file). If not, see
         <field name="defaultUserGroupId" type="id"/>
         <field name="sequenceNum" type="number-integer"/>
         <field name="inbound" type="text-indicator"/>
+        <field name="verboseMode" type="text-indicator"/>
         <field name="disabled" type="text-indicator" enable-audit-log="true"/>
 
         <relationship type="one-nofk" related="moqui.security.sso.OauthFlow" short-alias="oauth" mutable="true">
