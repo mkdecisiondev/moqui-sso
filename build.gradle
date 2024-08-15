@@ -48,18 +48,23 @@ dependencies {
     implementation project(':framework')
 
     // pac4j
-    implementation 'org.pac4j:pac4j-core:5.7.1'
-    implementation 'org.pac4j:pac4j-javaee:5.7.1'
-    implementation 'org.pac4j:pac4j-oauth:5.7.1'
-    implementation 'org.pac4j:pac4j-oidc:5.7.1'
-    implementation ('org.pac4j:pac4j-saml:5.7.1') {
+    implementation 'org.pac4j:pac4j-core:5.7.3'
+    implementation 'org.pac4j:pac4j-javaee:5.7.3'
+    implementation 'org.pac4j:pac4j-oauth:5.7.3'
+    implementation 'org.pac4j:pac4j-oidc:5.7.3'
+    implementation ('org.pac4j:pac4j-saml:5.7.3') {
         exclude group: 'org.springframework'
         exclude group: 'org.bouncycastle'
     }
 
     // explicit dependencies to get newer versions
-    implementation 'org.springframework:spring-core:5.3.29'
-    implementation 'org.bouncycastle:bcprov-jdk18on:1.75'
+    implementation 'com.google.guava:guava:32.1.2-jre'
+    implementation 'net.minidev:json-smart:2.5.0'
+    implementation 'org.springframework:spring-core:5.3.37'
+    implementation 'org.bouncycastle:bcprov-jdk18on:1.78.1'
+    implementation 'org.cryptacular:cryptacular:1.2.5'
+    implementation 'org.checkerframework:checker-qual:3.42.0'
+    implementation 'org.apache.santuario:xmlsec:2.3.4'
 }
 
 // by default the Java plugin runs test on build, change to not do that (only run test if explicit task)
