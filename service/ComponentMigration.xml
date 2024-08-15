@@ -60,7 +60,7 @@
                 <service-call name="store#moqui.security.sso.AuthFlowRoleMap">
                     <field-map field-name="authFlowId" value="Keycloak"/>
                     <field-map field-name="userGroupId" from="userGroup.userGroupId"/>
-                    <field-map field-name="roleName" from="userGroup.description"/>
+                    <field-map field-name="roleName" from="userGroup.userGroupId"/>
                 </service-call>
             </iterate>
 
