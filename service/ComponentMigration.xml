@@ -78,7 +78,7 @@
                 <field-map field-name="clientTypeEnumId" value="OctKeycloak"/>
                 <field-map field-name="clientId" from="oidcPac4j.clientId"/>
                 <field-map field-name="secret" from="oidcPac4j.secret"/>
-                <field-map field-name="preferredJwsAlgorithmEnumId" value="OjaRS512"/>
+                <field-map field-name="preferredJwsAlgorithmEnumId" from="oidcPac4j.preferredJwsAlgorithm ? 'Oja' + oidcPac4j.preferredJwsAlgorithm : 'OjaRS512'"/>
                 <field-map field-name="realm" from="realm"/>
                 <field-map field-name="baseUri" from="baseUrl"/>
             </service-call>
