@@ -27,6 +27,7 @@ along with this software (see the LICENSE.md file). If not, see
         <field name="webappRootUrl" type="text-medium"/>
         <field name="sequenceNum" type="number-integer"/>
         <field name="inbound" type="text-indicator"/>
+        <field name="verboseMode" type="text-indicator"/>
         <field name="disabled" type="text-indicator" enable-audit-log="true"/>
 
         <relationship type="one-nofk" related="moqui.security.sso.OauthFlow" short-alias="oauth" mutable="true">
@@ -105,19 +106,19 @@ along with this software (see the LICENSE.md file). If not, see
 
         <seed-data>
             <moqui.basic.EnumerationType enumTypeId="OauthClientType" description="OAuth Client Type"/>
-            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OctBitBucket" description="BitBucket"/>
-            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OctDropBox" description="DropBox"/>
-            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OctFacebook" description="Facebook"/>
-            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OctFoursquare" description="Foursquare"/>
-            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OctGitHub" description="GitHub"/>
-            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OctGoogle" description="Google"/>
-            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OctLinkedIn" description="LinkedIn"/>
-            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OctPaypal" description="Paypal"/>
-            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OctTwitter" description="Twitter"/>
-            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OctWordPress" description="Word Press"/>
-            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OctYahoo" description="Yahoo"/>
-            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OctOauth10" description="OAuth v1.0"/>
-            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OctOauth20" description="OAuth v2.0"/>
+            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OactBitBucket" description="BitBucket" optionValue="fa-brands fa-bitbucket fa-2x"/>
+            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OactDropbox" description="Dropbox" optionValue="fa-brands fa-dropbox fa-2x"/>
+            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OactFacebook" description="Facebook" optionValue="fa-brands fa-facebook fa-2x"/>
+            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OactFoursquare" description="Foursquare" optionValue="fa-brands fa-foursquare fa-2x"/>
+            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OactGitHub" description="GitHub" optionValue="fa-brands fa-github fa-2x"/>
+            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OactGoogle" description="Google" optionValue="fa-brands fa-google fa-2x"/>
+            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OactLinkedIn" description="LinkedIn" optionValue="fa-brands fa-linkedin fa-2x"/>
+            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OactPaypal" description="Paypal" optionValue="fa-brands fa-paypal fa-2x"/>
+            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OactTwitter" description="X (Twitter)" optionValue="fa-brands fa-x-twitter fa-2x"/>
+            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OactWordPress" description="WordPress" optionValue="fa-brands fa-wordpress fa-2x"/>
+            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OactYahoo" description="Yahoo" optionValue="fa-brands fa-yahoo fa-2x"/>
+            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OactOauth10" description="OAuth v1.0" optionValue="far fa-globe fa-2x"/>
+            <moqui.basic.Enumeration enumTypeId="OauthClientType" enumId="OactOauth20" description="OAuth v2.0" optionValue="far fa-globe fa-2x"/>
         </seed-data>
     </entity>
     <entity entity-name="OidcFlow" package="moqui.security.sso">
@@ -152,11 +153,11 @@ along with this software (see the LICENSE.md file). If not, see
 
         <seed-data>
             <moqui.basic.EnumerationType enumTypeId="OidcClientType" description="OpenID Connect Client Type"/>
-            <moqui.basic.Enumeration enumTypeId="OidcClientType" enumId="OctApple" description="Apple"/>
-            <moqui.basic.Enumeration enumTypeId="OidcClientType" enumId="OctAzureAd" description="Azure AD"/>
-            <moqui.basic.Enumeration enumTypeId="OidcClientType" enumId="OctGoogle" description="Google"/>
-            <moqui.basic.Enumeration enumTypeId="OidcClientType" enumId="OctKeycloak" description="Keycloak"/>
-            <moqui.basic.Enumeration enumTypeId="OidcClientType" enumId="OctOther" description="Other"/>
+            <moqui.basic.Enumeration enumTypeId="OidcClientType" enumId="OcctApple" description="Apple" optionValue="fa-brands fa-apple fa-2x"/>
+            <moqui.basic.Enumeration enumTypeId="OidcClientType" enumId="OcctAzureAd" description="Azure AD" optionValue="fa-brands fa-microsoft fa-2x"/>
+            <moqui.basic.Enumeration enumTypeId="OidcClientType" enumId="OcctGoogle" description="Google" optionValue="fa-brands fa-google fa-2x"/>
+            <moqui.basic.Enumeration enumTypeId="OidcClientType" enumId="OcctKeycloak" description="Keycloak" optionValue="far fa-globe fa-2x"/>
+            <moqui.basic.Enumeration enumTypeId="OidcClientType" enumId="OcctOther" description="Other" optionValue="far fa-globe fa-2x"/>
 
             <moqui.basic.EnumerationType enumTypeId="OidcJwsAlgorithm" description="OpenID Connect JWS Algorithm"/>
             <moqui.basic.Enumeration enumTypeId="OidcJwsAlgorithm" enumId="OjaHS256" description="HMAC using SHA-256 (HS256)" optionValue="HS256"/>

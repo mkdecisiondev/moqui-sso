@@ -79,16 +79,16 @@ final class AuthenticationClientFactory {
         // init client
         OidcConfiguration config
         OidcClient client
-        if ("OctApple" == authFlow.clientTypeEnumId) {
+        if ("OcctApple" == authFlow.clientTypeEnumId) {
             config = new AppleOidcConfiguration()
             client = new AppleClient(config)
-        } else if ("OctAzureAd" == authFlow.clientTypeEnumId) {
+        } else if ("OcctAzureAd" == authFlow.clientTypeEnumId) {
             config = new AzureAd2OidcConfiguration()
             client = new AzureAd2Client(config)
-        } else if ("OctGoogle" == authFlow.clientTypeEnumId) {
+        } else if ("OcctGoogle" == authFlow.clientTypeEnumId) {
             config = new OidcConfiguration()
             client = new GoogleOidcClient(config)
-        } else if ("OctKeycloak" == authFlow.clientTypeEnumId) {
+        } else if ("OcctKeycloak" == authFlow.clientTypeEnumId) {
             config = new KeycloakOidcConfiguration()
             config.setRealm(authFlow.realm as String)
             config.setBaseUri(authFlow.baseUri as String)
@@ -120,79 +120,79 @@ final class AuthenticationClientFactory {
                 .one()
 
         // init client
-        if ("OctBitBucket" == authFlow.clientTypeEnumId) {
+        if ("OactBitBucket" == authFlow.clientTypeEnumId) {
             BitbucketClient client = new BitbucketClient()
             client.setKey(authFlow.clientId as String)
             client.setSecret(authFlow.secret as String)
             client.setName(authFlowId)
             return client
-        } else if ("OctDropBox" == authFlow.clientTypeEnumId) {
+        } else if ("OactDropbox" == authFlow.clientTypeEnumId) {
             DropBoxClient client = new DropBoxClient()
             client.setKey(authFlow.clientId as String)
             client.setSecret(authFlow.secret as String)
             client.setName(authFlowId)
             return client
-        } else if ("OctFacebook" == authFlow.clientTypeEnumId) {
+        } else if ("OactFacebook" == authFlow.clientTypeEnumId) {
             FacebookClient client = new FacebookClient()
             client.setKey(authFlow.clientId as String)
             client.setSecret(authFlow.secret as String)
             client.setName(authFlowId)
             return client
-        } else if ("OctFoursquare" == authFlow.clientTypeEnumId) {
+        } else if ("OactFoursquare" == authFlow.clientTypeEnumId) {
             FoursquareClient client = new FoursquareClient()
             client.setKey(authFlow.clientId as String)
             client.setSecret(authFlow.secret as String)
             client.setName(authFlowId)
             return client
-        } else if ("OctGitHub" == authFlow.clientTypeEnumId) {
+        } else if ("OactGitHub" == authFlow.clientTypeEnumId) {
             GitHubClient client = new GitHubClient()
             client.setKey(authFlow.clientId as String)
             client.setSecret(authFlow.secret as String)
             client.setName(authFlowId)
             return client
-        } else if ("OctGoogle" == authFlow.clientTypeEnumId) {
+        } else if ("OactGoogle" == authFlow.clientTypeEnumId) {
             Google2Client client = new Google2Client()
             client.setKey(authFlow.clientId as String)
             client.setSecret(authFlow.secret as String)
             client.setName(authFlowId)
             return client
-        } else if ("OctLinkedIn" == authFlow.clientTypeEnumId) {
+        } else if ("OactLinkedIn" == authFlow.clientTypeEnumId) {
             LinkedIn2Client client = new LinkedIn2Client()
             client.setKey(authFlow.clientId as String)
             client.setSecret(authFlow.secret as String)
             client.setName(authFlowId)
             return client
-        } else if ("OctPaypal" == authFlow.clientTypeEnumId) {
+        } else if ("OactPaypal" == authFlow.clientTypeEnumId) {
             PayPalClient client = new PayPalClient()
             client.setKey(authFlow.clientId as String)
             client.setSecret(authFlow.secret as String)
             client.setName(authFlowId)
             return client
-        } else if ("OctTwitter" == authFlow.clientTypeEnumId) {
+        } else if ("OactTwitter" == authFlow.clientTypeEnumId) {
             TwitterClient client = new TwitterClient()
             client.setKey(authFlow.clientId as String)
             client.setSecret(authFlow.secret as String)
             client.setName(authFlowId)
             return client
-        } else if ("OctWordPress" == authFlow.clientTypeEnumId) {
+        } else if ("OactWordPress" == authFlow.clientTypeEnumId) {
             WordPressClient client = new WordPressClient()
             client.setKey(authFlow.clientId as String)
             client.setSecret(authFlow.secret as String)
             client.setName(authFlowId)
             return client
-        } else if ("OctYahoo" == authFlow.clientTypeEnumId) {
+        } else if ("OactYahoo" == authFlow.clientTypeEnumId) {
             YahooClient client = new YahooClient()
             client.setKey(authFlow.clientId as String)
             client.setSecret(authFlow.secret as String)
             client.setName(authFlowId)
             return client
-        } else if ("OctOauth10" == authFlow.clientTypeEnumId) {
+        } else if ("OactOauth10" == authFlow.clientTypeEnumId) {
             OAuth10Client client = new OAuth10Client()
             client.setKey(authFlow.clientId as String)
             client.setSecret(authFlow.secret as String)
             client.setName(authFlowId)
             return client
-        } else if ("OctOauth20" == authFlow.clientTypeEnumId) {
+        } else if ("OactOauth20" == authFlow.clientTypeEnumId) {
             OAuth20Client client = new OAuth20Client()
             client.setKey(authFlow.clientId as String)
             client.setSecret(authFlow.secret as String)
