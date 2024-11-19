@@ -64,6 +64,9 @@ class MoquiSecurityGrantedAccessAdapter implements SecurityGrantedAccessAdapter 
                     EntityValue authFlow = ec.entity.find("moqui.security.sso.AuthFlow")
                             .condition("authFlowId", profile.clientName)
                             .one()
+                    if ("Y" == authFlow.verboseMode) {
+                        ec.logger.info("Received profile attributes: " + profile.attributes)
+                    }
                     Map<String, Object> attributeMap = mapProfileFields(authFlow.fieldMaps as EntityList, profile.attributes)
 
                     // sync user account
@@ -113,6 +116,9 @@ class MoquiSecurityGrantedAccessAdapter implements SecurityGrantedAccessAdapter 
                                 .condition("authFlowId", profile.clientName)
                                 .condition("roleName", role)
                                 .one()
+                        if (!roleMap && "Y" == authFlow.verboseMode) {
+                            ec.logger.warn("No map found for role: " + role)
+                        }
                         if (roleMap?.userGroupId && !obsoleteUserGroupIdSet.remove(roleMap.userGroupId)) {
                             ec.service.sync().name("create#moqui.security.UserGroupMember")
                                     .parameter("userGroupId", roleMap.userGroupId)
